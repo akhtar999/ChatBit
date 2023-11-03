@@ -39,7 +39,7 @@ const SignUp = () => {
         />
       </FormControl>
       {/* Password */}
-      <FormControl id="password" isRequired>
+      <FormControl id="signup-password" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input

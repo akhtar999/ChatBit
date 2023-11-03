@@ -20,7 +20,7 @@ const Login = () => {
   return (
     <VStack spacing="5px" color="black" gap="10px">
       {/* email */}
-      <FormControl id="email" isRequired>
+      <FormControl id="email-id" isRequired>
         <FormLabel>Email</FormLabel>
         <Input
           placeholder="Enter your email"
@@ -28,7 +28,7 @@ const Login = () => {
         />
       </FormControl>
       {/* Password */}
-      <FormControl id="password" isRequired>
+      <FormControl id="login-password" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
