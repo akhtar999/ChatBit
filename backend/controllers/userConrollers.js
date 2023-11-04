@@ -65,6 +65,20 @@ const loginUser = asyncHandler(async (req, res) => {
 //get all users
 // /api/user?search=akhtar
 const allUser = asyncHandler(async (req, res) => {
-  
+  const keyword = req.query.search
+    ? {
+        // $or : operator performs a logical OR operation on an array of one or more <expressions>
+        //regex: Provides regular expression capabilities for pattern matching strings in queries.
+
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } }, // i = case insensitive
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {}; // else we not gonna do anything
+
+  const users = await User.find(keyword).find({ _id: { $ne: req.user_id } }); // find all user except current user
+  res.send(users);
 });
-module.exports = { registerUser, loginUser };
+
+module.exports = { registerUser, loginUser, allUser };
