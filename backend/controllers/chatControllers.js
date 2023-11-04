@@ -117,7 +117,7 @@ const renameGroup = asyncHandler(async (req, res) => {
       new: true, // it gonna update the new name
     }
   )
-    .populate("Users", "-password")
+    .populate("users", "-password")
     .populate("groupAdmin", "-password");
 
   if (!updatedChat) {
@@ -127,4 +127,12 @@ const renameGroup = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { accessChat, fetchChat, createGroupChat, renameGroup };
+const addToGroup = asyncHandler(async (req, res) => {});
+
+module.exports = {
+  accessChat,
+  fetchChat,
+  createGroupChat,
+  renameGroup,
+  addToGroup,
+};
