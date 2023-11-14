@@ -77,7 +77,7 @@ const allUser = asyncHandler(async (req, res) => {
       }
     : {}; // else we not gonna do anything
 
-  const users = await User.find(keyword).find({ _id: { $ne: req.user_id } }); // find all user except current user
+  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } }); // find all user except current user
   res.send(users);
 });
 
