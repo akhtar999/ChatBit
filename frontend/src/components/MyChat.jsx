@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { ChatState } from "../context/ChatProvider";
-import { Box, Button, useToast } from "@chakra-ui/react";
+import { Box, Button, Stack, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect } from "react";
 import { AddIcon } from "@chakra-ui/icons";
+import ChatLoading from "./ChatLoading";
+import { getSender } from "../configs/chatLogics";
+import GroupChatModel from "./GroupChatModel";
 
 const MyChat = () => {
   const [loggedUser, setLoggedUser] = useState();
@@ -59,17 +62,45 @@ const MyChat = () => {
         fontSize={{ base: "20px", md: "24px" }}
         d="flex"
         w="100%"
-        // justifyContent="space-between"
+        justifyContent="space-between"
         alignItems="center"
       >
         My Chats
-        <Button
-          d="flex"
-          fontSize={{ base: "15px", md: "19px", lg: "15px" }}
-          rightIcon={<AddIcon />}
-        >
-          New Group Chat
-        </Button>
+        <GroupChatModel>
+          <Button
+            d="flex"
+            fontSize={{ base: "15px", md: "19px", lg: "15px" }}
+            rightIcon={<AddIcon />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModel>
+      </Box>
+      <Box>
+        {chats ? (
+          <Stack overflowY="scroll">
+            {chats.map((chat) => (
+              <Box
+                onClick={() => setSelectedChat(chat)}
+                cursor="pointer"
+                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                color={selectedChat === chat ? "white" : "black"}
+                px={3}
+                py={2}
+                borderRadius="lg"
+                key={chat._id}
+              >
+                <Text>
+                  {!chat.isGroupChat
+                    ? getSender(loggedUser, chat.users)
+                    : chat.chatName}
+                </Text>
+              </Box>
+            ))}
+          </Stack>
+        ) : (
+          <ChatLoading />
+        )}
       </Box>
     </Box>
   );

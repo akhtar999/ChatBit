@@ -3,26 +3,21 @@ import SideDrawer from "../components/SideDrawer";
 import { ChatState } from "../context/ChatProvider";
 import MyChat from "../components/MyChat";
 import ChatBox from "./../components/ChatBox";
+import { useState } from "react";
 
 const ChatPage = () => {
+  const [fetchAgain, setFetchAgain] = useState(false);
   const { user } = ChatState();
 
   return (
     <div style={{ width: "100%" }}>
       {user && <SideDrawer />}
-      <Flex p="10px">
-        <Box
-          d="flex"
-          justifyContent="space-between"
-          w="100%"
-          h="91.5vh"
-          p="10px"
-        >
-          {user && <MyChat />}
-        </Box>
-        <Spacer />
-        <Box>{user && <ChatBox />}</Box>
-      </Flex>
+      <Box d="flex" justifyContent="space-between" w="100%" h="91.5vh" p="10px">
+        {user && <MyChat fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
+      </Box>
     </div>
   );
 };
