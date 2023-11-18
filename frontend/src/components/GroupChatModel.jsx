@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   Input,
@@ -16,6 +17,7 @@ import React, { useState } from "react";
 import { ChatState } from "./../context/ChatProvider";
 import axios from "axios";
 import UserListItem from "./UserListItem";
+import UserBadgeItem from "./UserBadgeItem";
 
 const GroupChatModel = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -59,7 +61,50 @@ const GroupChatModel = ({ children }) => {
     }
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    if (!groupChatName || !selectedUser) {
+      toast({
+        title: "Please fill all the feilds",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      const { data } = await axios.post("/api/user/group", {
+        name: groupChatName,
+        users: JSON.stringify(selectedUser.map((u) => u._id)),
+      });
+      setChats([data, ...chats]);
+    } catch (error) {}
+  };
+
+  const handleDelete = (userToDelete) => {
+    setSelectedUser(selectedUser.filter((sel) => sel._id !== userToDelete._id));
+  };
+
+  const handleGroup = (userToAdd) => {
+    if (selectedUser.includes(userToAdd)) {
+      toast({
+        title: "User already added",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+      return;
+    }
+
+    setSelectedUser([...selectedUser, userToAdd]);
+  };
 
   return (
     <>
@@ -91,17 +136,27 @@ const GroupChatModel = ({ children }) => {
                 onChange={(e) => handleSearch(e.target.value)}
               />
             </FormControl>
-            {/* selected user */}
+            <Box w="100%" display={"flex"} flexWrap={"wrap"}>
+              {selectedUser.map((u) => (
+                <UserBadgeItem
+                  key={user._id}
+                  user={u}
+                  handleFunction={() => handleDelete(u)}
+                />
+              ))}
+            </Box>
             {loading ? (
               <div>loading...</div>
             ) : (
-              searchResult?.slice(0, 4).map((user) => {
-                <UserListItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => handleGroup(user)}
-                />;
-              })
+              searchResult
+                ?.slice(0, 4)
+                .map((user) => (
+                  <UserListItem
+                    key={user._id}
+                    user={user}
+                    handleFunction={() => handleGroup(user)}
+                  />
+                ))
             )}
           </ModalBody>
 
