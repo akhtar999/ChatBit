@@ -24,7 +24,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
-    // pic,
+    pic,
   });
 
   if (user) {
@@ -32,7 +32,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      // pic: user.pic,
+      pic: user.pic,
       token: generateToken(user._id),
     });
   } else {
@@ -53,7 +53,7 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      // pic: user.pic,
+      pic: user.pic,
       token: generateToken(user._id),
     });
   } else {

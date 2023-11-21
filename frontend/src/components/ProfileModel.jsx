@@ -30,7 +30,7 @@ const ProfileModel = ({ user, children }) => {
         <ModalContent h={"410px"}>
           <ModalHeader
             fontSize="40px"
-            d="flex"
+            display="flex"
             justifyContent="center"
             alignItems={"center"}
           >
@@ -40,7 +40,7 @@ const ProfileModel = ({ user, children }) => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody
-            d={"flex"}
+            display={"flex"}
             flexDir={"column"}
             alignItems={"center"}
             justifyContent={"space-between"}

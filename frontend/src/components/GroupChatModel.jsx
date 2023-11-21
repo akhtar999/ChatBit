@@ -79,12 +79,33 @@ const GroupChatModel = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post("/api/user/group", {
-        name: groupChatName,
-        users: JSON.stringify(selectedUser.map((u) => u._id)),
-      });
+      const { data } = await axios.post(
+        "/api/chat/group",
+        {
+          name: groupChatName,
+          users: JSON.stringify(selectedUser.map((u) => u._id)),
+        },
+        config
+      );
       setChats([data, ...chats]);
-    } catch (error) {}
+      onClose();
+      toast({
+        title: "New Group Chat Created ",
+        status: "success",
+        duration: "3000",
+        isClosable: true,
+        position: "bottom",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to Create the Chat!",
+        description: error.response.data,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   };
 
   const handleDelete = (userToDelete) => {

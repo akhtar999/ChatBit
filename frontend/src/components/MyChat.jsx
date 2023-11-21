@@ -7,8 +7,9 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../configs/chatLogics";
 import GroupChatModel from "./GroupChatModel";
+import { transform } from "framer-motion";
 
-const MyChat = () => {
+const MyChat = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { user, setUser, selectedChat, setSelectedChat, chats, setChats } =
     ChatState();
@@ -41,7 +42,7 @@ const MyChat = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
   return (
     <Box
@@ -54,13 +55,12 @@ const MyChat = () => {
       w={{ base: "100%", md: "31%" }}
       borderRadius="lg"
       borderWidth="1px"
-      minHeight="600px"
     >
       <Box
         pb={3}
         px={3}
         fontSize={{ base: "20px", md: "24px" }}
-        d="flex"
+        display="flex"
         w="100%"
         justifyContent="space-between"
         alignItems="center"
