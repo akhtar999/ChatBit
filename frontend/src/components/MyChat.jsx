@@ -7,7 +7,6 @@ import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../configs/chatLogics";
 import GroupChatModel from "./GroupChatModel";
-import { transform } from "framer-motion";
 
 const MyChat = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -68,8 +67,8 @@ const MyChat = ({ fetchAgain }) => {
         My Chats
         <GroupChatModel>
           <Button
-            d="flex"
-            fontSize={{ base: "15px", md: "19px", lg: "15px" }}
+            display="flex"
+            fontSize={{ base: "15px", md: "13px", lg: "15px" }}
             rightIcon={<AddIcon />}
           >
             New Group Chat
@@ -80,22 +79,24 @@ const MyChat = ({ fetchAgain }) => {
         {chats ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
-              <Box
-                onClick={() => setSelectedChat(chat)}
-                cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
-                px={3}
-                py={2}
-                borderRadius="lg"
-                key={chat._id}
-              >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
-              </Box>
+              <React.Fragment key={chat._id}>
+                <Box
+                  onClick={() => setSelectedChat(chat)}
+                  cursor="pointer"
+                  bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                  color={selectedChat === chat ? "white" : "black"}
+                  px={3}
+                  py={2}
+                  borderRadius="lg"
+                  key={chat._id}
+                >
+                  <Text>
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
+                  </Text>
+                </Box>
+              </React.Fragment>
             ))}
           </Stack>
         ) : (
