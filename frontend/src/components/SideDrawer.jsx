@@ -30,6 +30,8 @@ import UserListItem from "./UserListItem";
 import { getSender } from "../configs/chatLogics";
 import { Effect } from "react-notification-badge";
 import NotificationBadge from "react-notification-badge";
+import ChatBotModal from "./ChatBotModal";
+// import ChatBot from "./ChatBot";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -143,6 +145,7 @@ const SideDrawer = () => {
         <Text fontSize="2xl" fontWeight="bold">
           Chat<span>Bit</span>
         </Text>
+        <ChatBotModal />
         <div>
           <Menu>
             <MenuButton p={1}>
@@ -151,6 +154,7 @@ const SideDrawer = () => {
                 effect={Effect.SCALE}
               />
               <BellIcon fontSize="2xl" m={1} />
+
               <MenuList>
                 {!notification.length && "No New Messages"}
                 {notification.map((notif) => (
